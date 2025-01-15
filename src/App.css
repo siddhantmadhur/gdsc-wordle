@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+.space-mono-regular {
+    font-family: "Space Mono", serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+  
+  .space-mono-bold {
+    font-family: "Space Mono", serif;
+    font-weight: 700;
+    font-style: normal;
+  }
+  
+  .space-mono-regular-italic {
+    font-family: "Space Mono", serif;
+    font-weight: 400;
+    font-style: italic;
+  }
+  
+  .space-mono-bold-italic {
+    font-family: "Space Mono", serif;
+    font-weight: 700;
+    font-style: italic;
+  }
+  
+body {
+    font-family: "Roboto", serif;
+}
+
+main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.attempt {
+    display: flex;
+    flex-direction: row;
+}
+
+.char {
+    margin: 5px;
+    padding: 2px;
+    font-size: x-large;
+    border-style: solid;
+    border-width: 2px;
+    border-color: black;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.keyboard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+.keyboard-row {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+}
+.key-correct {
+    background-color: green;
+}
+.keyboard-key {
+    border-style: solid;
+    font-size: 24px;
+    border-width: 2px;
+    border-color: black;
+    width: 30px;
+    height: 40px;
+    border-radius: 20%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.attempt-grid {
+    margin-bottom: 30px;
+}
