@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "./App.css";
+import words from "./random_words";
 
 const keyboard = [
   ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
@@ -9,13 +10,39 @@ const keyboard = [
 
 const keyboard_hash = new Map();
 
+
+const set_input_letter = (letter, attempts, setAttempts) => {
+
+      const prevAttempts = attempts;
+      let cur = prevAttempts.pop();
+        cur += letter 
+        prevAttempts.push(cur);
+      if (cur.length >= 5) {
+
+        cur.split("").forEach((char, charIdx)=>{
+          if (chosenWord.indexOf(char) !== -1 && keyboard_hash.get(char) !== 2) {
+            keyboard_hash.set(char, 1)
+          }
+          if (chosenWord.at(charIdx) === cur.at(charIdx) && keyboard_hash.get(char) !== 2) {
+            keyboard_hash.set(char, 2)
+          }
+        })
+
+        prevAttempts.push("");
+      }
+      setAttempts([...prevAttempts]);
+}
+
+const chosenWord = words[Math.round(Math.random() * (words.length ))]
+
+function History (props) {
+  return <div>Attempts taken: </div>
+}
+
 function App() {
   const [attempts, setAttempts] = useState([""]);
 
-  const [chosenWord, setChosenWord] = useState("")
-
   useEffect(() => {
-    setChosenWord("piper")
     document.addEventListener("keydown", (ev) => {
       const letter = ev.key.toLowerCase();
       if (ev.key === 'Backspace') {
@@ -38,19 +65,19 @@ function App() {
       ) {
         return;
       }
-      keyboard_hash.set(letter, 1)
-      const prevAttempts = attempts;
-      let cur = prevAttempts.pop();
-      if (cur.length >= 5) {
-        prevAttempts.push(cur);
-        prevAttempts.push(ev.key.toLowerCase());
-      } else {
-        cur += ev.key.toLowerCase();
-        prevAttempts.push(cur);
-      }
-      setAttempts([...prevAttempts]);
+      set_input_letter(letter, attempts, setAttempts)
     });
   }, []);
+
+  useEffect(()=>{
+    if (attempts.length <= 1) {
+      return;
+    }
+    if (attempts[attempts.length - 2] === chosenWord) {
+      // TODO: Make this more sophisticated
+
+    }
+  }, [attempts])
 
   return (
     <>
@@ -63,12 +90,20 @@ function App() {
             .concat([...Array(attempts.length <= 5 ? 5 - attempts.length : 0)])
             .filter((val, i) => i < 5)
             .map((e) => (typeof e === "undefined" ? "" : e))
-            .map((attempt, idx) => {
+            .map((attempt, attemptIdx) => {
               return (
-                <div className="attempt" key={idx}>
-                  {attempt?.split("").map((char, key) => {
+                <div className="attempt" key={attemptIdx}>
+                  {attempt?.split("").map((char, charIdx) => {
+                    if (attempts.length - 1 === attemptIdx) {
                     return (
-                      <div className="char" key={key}>
+                      <div className={`char`} key={charIdx}>
+                        {char}
+                      </div>
+                    );
+
+                    }
+                    return (
+                      <div className={`char ${char === chosenWord.at(charIdx) ? 'key-correct': chosenWord.indexOf(char) !== -1 ? 'key-almost-correct' : 'key-wrong'}`} key={charIdx}>
                         {char}
                       </div>
                     );
@@ -89,9 +124,9 @@ function App() {
             <div className="keyboard-row" key={rowId}>
               {row.map((key, keyId) => {
                 return (
-                  <div className={`keyboard-key ${keyboard_hash.get(key) === 1 ? 'key-correct' : '' }`} key={keyId}>
+                  <button onClick={()=>set_input_letter(key, attempts, setAttempts)} className={`keyboard-key ${keyboard_hash.get(key) === 2 ? 'key-correct' : keyboard_hash.get(key) === 1 ? 'key-almost-correct' : typeof keyboard_hash.get(key) !== 'undefined' ? 'key-wrong'  : ''}`} key={keyId}>
                     {key}
-                  </div>
+                  </button>
                 );
               })}
             </div>
