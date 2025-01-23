@@ -9,10 +9,6 @@ import words from './random_words'
 function App() {
     
 
-    const [pastGuesses, setPastGuesses] = useState([])
-    const [guess, setGuess] = useState("")
-    const [correctWord, setCorrectWord] = useState("")
-
     return (
         <div>
             Hello, World!
