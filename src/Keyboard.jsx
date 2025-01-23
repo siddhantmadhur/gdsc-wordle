@@ -7,12 +7,44 @@ const keyboard_keys = [
 ];
 
 
+/**
+ *  @param {string} key
+ *  @param {string[]} guesses
+ *  @param {string} correctWord
+ *  @returns {number}
+ *  @description Checks if a character is in a guess and if so how correct it is
+ * */
+const hasKeyBeenUsed = (key, guesses, correctWord) => {
+    let used = 0
+   
+    guesses.forEach((guess)=>{
+        if (guess.includes(key))
+        {
+            if (used <= 1){
+                used = 1
+            }
+            if (correctWord.includes(key) && used <= 2){
+                used = 2
+            }
+            guess.split("").forEach((char, charIdx)=>{
+                if (char === key){
+                    if (correctWord.charAt(charIdx) === key){
+                        used = 3
+                    }
+                }
+            })
+        }
+    })
+
+    return used
+}
 
 /**
  *  @description Returns a keyboard that can be interacted with
  *  @param {object} props
- *  @param {Object.<string, number>} props.keys Map with key being a letter, and the value being 0 if the user hasn't guessed it, 1 if it's guessed but wrong, 2 if correct but in the wrong place, and 3 if correct and in the right place
  *  @param {(arg0: string) => void} props.handleKey
+ *  @param {string} props.correctWord
+ *  @param {string[]} props.pastGuesses
  * */
 function Keyboard (props) {
     return (
@@ -26,10 +58,10 @@ function Keyboard (props) {
                         key={keyId}
                         className={`
                             keyboard-key 
-                            ${typeof props.keys[key] === 'undefined' ? '': ''}
-                            ${props.keys[key] === 1 ? 'key-wrong': ''}
-                            ${props.keys[key] === 2 ? 'key-almost-correct': ''}
-                            ${props.keys[key] === 3 ? 'key-correct': ''}
+                            ${hasKeyBeenUsed(key, props.pastGuesses, props.correctWord) === 0 ? '': ''}
+                            ${hasKeyBeenUsed(key, props.pastGuesses, props.correctWord) === 1 ? 'key-wrong': ''}
+                            ${hasKeyBeenUsed(key, props.pastGuesses, props.correctWord) === 2 ? 'key-almost-correct': ''}
+                            ${hasKeyBeenUsed(key, props.pastGuesses, props.correctWord) === 3 ? 'key-correct': ''}
                         `}
                         >
                         {key}

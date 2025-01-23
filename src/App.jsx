@@ -7,6 +7,7 @@ import Keyboard from './Keyboard'
 import words from './random_words'
 
 
+
 function App() {
 
 
@@ -21,7 +22,6 @@ function App() {
     // The actual current word
     const [correctWord, setCorrectWord] = useState("")
     
-    const [keyMap, setKeyMap] = useState({})
 
     /**
      *  @param {string} key
@@ -100,8 +100,9 @@ function App() {
             </div>
             <div>
                 <Keyboard 
-                   keys={{}} 
                     handleKey={handleKey}
+                    correctWord={correctWord}
+                    pastGuesses={pastGuesses}
                 />
             </div>
         </main>
