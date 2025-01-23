@@ -39,40 +39,4 @@ const hasKeyBeenUsed = (key, guesses, correctWord) => {
     return used
 }
 
-/**
- *  @description Returns a keyboard that can be interacted with
- *  @param {object} props
- *  @param {(arg0: string) => void} props.handleKey
- *  @param {string} props.correctWord
- *  @param {string[]} props.pastGuesses
- * */
-function Keyboard (props) {
-    return (
-    <div className="keyboard">
-          {keyboard_keys.map((row, rowId) => (
-            <div className="keyboard-row" key={rowId}>
-              {row.map((key, keyId) => {
-                return (
-                    <button 
-                        onClick={() => props.handleKey(key)}
-                        key={keyId}
-                        className={`
-                            keyboard-key 
-                            ${hasKeyBeenUsed(key, props.pastGuesses, props.correctWord) === 0 ? '': ''}
-                            ${hasKeyBeenUsed(key, props.pastGuesses, props.correctWord) === 1 ? 'key-wrong': ''}
-                            ${hasKeyBeenUsed(key, props.pastGuesses, props.correctWord) === 2 ? 'key-almost-correct': ''}
-                            ${hasKeyBeenUsed(key, props.pastGuesses, props.correctWord) === 3 ? 'key-correct': ''}
-                        `}
-                        >
-                        {key}
-                    </button>           
-                );
-              })}
-            </div>
-          ))}
-        </div>
-    )
-}
-
-export default Keyboard;
 
