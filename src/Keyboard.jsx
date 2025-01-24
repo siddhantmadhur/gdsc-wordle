@@ -12,7 +12,7 @@ const keyboard_keys = [
  *  @param {string[]} guesses
  *  @param {string} correctWord
  *  @returns {number}
- *  @description Checks if a character is in a guess and if so how correct it is
+ *  @description Returns 0 if a character is not in guess, 1 if it is in a guess but wrong, 2 if it is in both the guess and the correct word, and finally 3 if it's correct, and in the right place 
  * */
 const hasKeyBeenUsed = (key, guesses, correctWord) => {
     let used = 0
